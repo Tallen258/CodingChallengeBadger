@@ -10,6 +10,11 @@
             HorizontalOptions="Center" />
 
         <Button 
+Padding="2"
+Margin="2"
+Text="RunAway"
+Command="{Binding RunAwayCommand}" />
+        <Button 
     Padding="2"
     Margin="2"
     Text="Attack"
@@ -17,25 +22,19 @@
         <Button 
             Padding="2"
             Margin="2"
-            Text="Scatter Troops Left"
+            Text="Left"
             Command="{Binding ScatterTroopsLeftCommand}" />
         <Button 
             Padding="2"
             Margin="2"
-        Text="Scatter Troops Right"
+        Text="Right"
         Command="{Binding ScatterTroopsRightCommand}" />
         <Button 
             Padding="2"
             Margin="2"
 Text="Do Nothing"
 Command="{Binding DoNothingCommand}" />
-            <Button 
-            Padding="2"
-            Margin="2"
-Text="MoveDownLeft"
-            Command="{Binding MoveDownLeftCommand}" />
-
-            <Grid ColumnDefinitions="*,*"
+        <Grid ColumnDefinitions="*,*"
               RowDefinitions="*,*">
         <Button 
             Padding="2"

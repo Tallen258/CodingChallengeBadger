@@ -81,6 +81,13 @@ namespace Controller.Maui.ViewModels;
         await _httpClient.GetAsync(apiUrl);
     }
 
+    [RelayCommand]
+    private async Task RunAway()
+    {
+        string apiUrl = "http://localhost:5027/change/RunAway";
+        await _httpClient.GetAsync(apiUrl);
+    }
+
 }
 
 

@@ -10,6 +10,7 @@ public class ScatterBot
     {
         return Strategy switch
         {
+            "RunAway" => RunAway(request),
             "Attack" => RunAndGun(request),
             "MoveLeft" => MoveLeft(request),
             "MoveRight" => MoveRight(request),
@@ -26,6 +27,9 @@ public class ScatterBot
     {
         switch (newStrategy)
         {
+            case "RunAway":
+                Strategy = "RunAway";
+                break;
             case "Attack":
                 Strategy = "Attack";
                 break;
@@ -188,4 +192,29 @@ public class ScatterBot
         }
         return Task.FromResult(moves);
     }
+
+    private Task<List<Move>> RunAway(MoveRequest request)
+    {
+        GameState gameState = new();
+        var moves = new List<Move>();
+
+        foreach (var unit in request.Units.Where(u => u.Team == request.YourTeamId))
+        {
+            var enemies = request.Units.Where(u => u.Team != request.YourTeamId);
+            var closest = enemies.OrderBy(u => u.Location.Distance(unit.Location)).FirstOrDefault();
+
+            if (closest != null)
+            {
+                var fleeCoordinate = unit.Location.Away(closest.Location);
+                moves.Add(new Move(MoveType.Walk, unit.Id, fleeCoordinate));
+            }
+            else
+            {
+                moves.Add(new Move(MoveType.Walk, unit.Id, unit.Location));
+            }
+        }
+        return Task.FromResult(moves);
+    }
+
+
 }
