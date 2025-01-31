@@ -74,6 +74,12 @@ namespace Controller.Maui.ViewModels;
         string apiUrl = "http://localhost:5027/change/UpLeft";
         await _httpClient.GetAsync(apiUrl);
     }
+    [RelayCommand]
+    private async Task Attack()
+    {
+        string apiUrl = "http://localhost:5027/change/Attack";
+        await _httpClient.GetAsync(apiUrl);
+    }
 
 }
 

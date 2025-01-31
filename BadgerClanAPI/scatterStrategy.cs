@@ -10,6 +10,7 @@ public class ScatterBot
     {
         return Strategy switch
         {
+            "Attack" => RunAndGun(request),
             "MoveLeft" => MoveLeft(request),
             "MoveRight" => MoveRight(request),
             "Nothing" => Nothing(request),
@@ -25,6 +26,9 @@ public class ScatterBot
     {
         switch (newStrategy)
         {
+            case "Attack":
+                Strategy = "Attack";
+                break;
             case "MoveLeft":
                 Strategy = "MoveLeft";
                 break;
@@ -148,38 +152,40 @@ public class ScatterBot
 
         return Task.FromResult(moves);
     }
+   
+
     private Task<List<Move>> Nothing(MoveRequest request)
     {
         var moves = new List<Move>();
         return Task.FromResult(moves);
 
     }
-    //private Task<List<Move>> RunAndGun(MoveRequest request)
-    //{
+    private Task<List<Move>> RunAndGun(MoveRequest request)
+    {
+        GameState gameState = new();
+        var moves = new List<Move>();
+        foreach (var unit in request.Units.Where(u => u.Team == request.YourTeamId))
+        {
+            var enemies = request.Units.Where(u => u.Team != request.YourTeamId);
+            var closest = enemies.OrderBy(u => u.Location.Distance(unit.Location)).FirstOrDefault();
+            if (closest != null)
+            {
 
-    //    var moves = new List<Move>();
-    //    foreach (var unit in request.Units.Where(u => u.Team == request.YourTeamId))
-    //    {
-    //        var enemies = request.Units.Where(u => u.Team != request.YourTeamId);
-    //        var closest = enemies.OrderBy(u => u.Location.Distance(unit.Location)).FirstOrDefault();
-    //        if (closest != null)
-    //        {
-
-    //            if (closest.Location.Distance(unit.Location) <= unit.AttackDistance)
-    //            {
-    //                moves.Add(SharedMoves.AttackClosest(unit, closest));
-    //                moves.Add(SharedMoves.AttackClosest(unit, closest));
-    //            }
-    //            else if (request.Medpacs > 0 && unit.Health < unit.MaxHealth)
-    //            {
-    //                moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
-    //            }
-    //            else
-    //            {
-    //                moves.Add(SharedMoves.StepToClosest(unit, closest, request));
-    //            }
-    //        }
-    //    }
-    //    return Task.FromResult(moves);
-    //}
+                if (closest.Location.Distance(unit.Location) <= unit.AttackDistance)
+                {
+                    moves.Add(SharedMoves1.AttackClosest(unit, closest));
+                    moves.Add(SharedMoves1.AttackClosest(unit, closest));
+                }
+                else if (request.Medpacs > 0 && unit.Health < unit.MaxHealth)
+                {
+                    moves.Add(new Move(MoveType.Medpac, unit.Id, unit.Location));
+                }
+                else
+                {
+                    moves.Add(SharedMoves1.StepToClosest(unit, closest, gameState));
+                }
+            }
+        }
+        return Task.FromResult(moves);
+    }
 }

@@ -9,7 +9,11 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <!-- Button to trigger scatter troops action -->
+        <Button 
+    Padding="2"
+    Margin="2"
+    Text="Attack"
+    Command="{Binding AttackCommand}" />
         <Button 
             Padding="2"
             Margin="2"

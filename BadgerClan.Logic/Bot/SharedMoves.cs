@@ -42,3 +42,44 @@ public class SharedMoves
     }
 
 }
+public class SharedMoves1
+{
+    public static Move AttackClosest(UnitDto unit, UnitDto closest)
+    {
+        var attack = new Move(MoveType.Attack, unit.Id, closest.Location);
+        return attack;
+    }
+
+    public static Move StepToClosest(UnitDto unit, UnitDto closest, GameState state)
+    {
+        Random rnd = new Random();
+
+        var target = unit.Location.Toward(closest.Location);
+
+        var neighbors = unit.Location.Neighbors();
+
+        while (state.Units.Any(u => u.Location == target))
+        {
+            if (neighbors.Any())
+            {
+                var i = rnd.Next(0, neighbors.Count() - 1);
+                target = neighbors[i];
+                neighbors.RemoveAt(i);
+            }
+            else
+            {
+                neighbors = unit.Location.MoveEast(1).Neighbors();
+            }
+        }
+
+        var move = new Move(MoveType.Walk, unit.Id, target);
+        return move;
+    }
+
+
+    public static bool CanAttack(UnitDto mine, UnitDto closest)
+    {
+        return closest.Location.Distance(mine.Location) <= mine.Attack;
+    }
+
+}
