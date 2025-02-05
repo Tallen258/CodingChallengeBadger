@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
         app.Logger.LogInformation("Adjusted Strategy to: " + value);
         bot.Strategy = value;
     });
-    app.MapGet("/", () => "helloWorld");
+    app.MapGet("/", () => "hello World");
     
 
     app.UseHttpsRedirection();
