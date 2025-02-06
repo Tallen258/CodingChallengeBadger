@@ -20,11 +20,11 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Build BadgerClanAPI
-        run: dotnet build ./BadgerClanAPI/BadgerClanAPI.csproj --configuration Release
+      - name: Build with dotnet
+        run: cd ./CodingChallengeBadger/BadgerClanAPI/BadgerClanAPI.csproj &&  dotnet build --configuration Release
 
       - name: Publish BadgerClanAPI
-        run: dotnet publish ./BadgerClanAPI/BadgerClanAPI.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: cd ./CodingChallengeBadger/BadgerClanAPI/BadgerClanAPI.csproj && dotnet publish  -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       # Exclude conflicting config files by manually removing them
       - name: Remove conflicting config files from Client
