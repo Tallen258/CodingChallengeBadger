@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./BadgerClanAPI/myapp
 
   deploy:
     runs-on: windows-latest
@@ -62,4 +62,4 @@ jobs:
         with:
           app-name: 'BadgerClanApi'
           slot-name: 'Production'
-          package: ${{env.DOTNET_ROOT}}/myapp
+          package: ./myapp
