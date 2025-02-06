@@ -7,11 +7,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_deploy:
+  build:
     runs-on: windows-latest
     permissions:
       contents: read # This is required for actions/checkout
-      id-token: write # This is required for requesting the JWT
 
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +20,34 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Build and publish the app
-        run: |
-          cd ./BadgerClanAPI
-          dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Build with dotnet
+        run:  cd ./BadgerClanAPI && dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+
+      - name: Publish BadgerClanAPI
+        run: cd ./BadgerClanAPI && dotnet publish  -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+
+      # Upload artifact for deployment job
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -34,6 +57,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E8FC318A09AC451E8CCDD513EA19AADD }}
 
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'BadgerClanApi'
