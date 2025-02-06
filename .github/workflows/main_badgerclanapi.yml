@@ -21,10 +21,10 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Build with dotnet
-        run:  ./BadgerClanAPI && dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run:  cd ./BadgerClanAPI && dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Publish BadgerClanAPI
-        run: cd ./CodingChallengeBadger/BadgerClanAPI && dotnet publish  -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: cd ./BadgerClanAPI && dotnet publish  -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       # Upload artifact for deployment job
       - name: Upload artifact for deployment job
