@@ -26,12 +26,6 @@ jobs:
       - name: Publish BadgerClanAPI
         run: cd ./CodingChallengeBadger/BadgerClanAPI/BadgerClanAPI.csproj && dotnet publish  -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
-      # Exclude conflicting config files by manually removing them
-      - name: Remove conflicting config files from Client
-        run: |
-          rm -f "${{env.DOTNET_ROOT}}/myapp/BadgerClan.Client/appsettings.json"
-          rm -f "${{env.DOTNET_ROOT}}/myapp/BadgerClan.Client/appsettings.Development.json"
-
       # Upload artifact for deployment job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
