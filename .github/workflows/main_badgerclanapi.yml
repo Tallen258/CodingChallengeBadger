@@ -48,6 +48,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+      - name: List downloaded files
+        run: dir ${{ github.workspace }}/myapp
+
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -62,4 +65,4 @@ jobs:
         with:
           app-name: 'BadgerClanApi'
           slot-name: 'Production'
-          package: ${{env.DOTNET_ROOT}}/myapp
+          package: ${{ github.workspace }}/myapp
