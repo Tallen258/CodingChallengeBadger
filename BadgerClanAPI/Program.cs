@@ -1,5 +1,8 @@
 using BadgerClan.Logic;
 using BadgerClan.api;
+using ProtoBuf.Grpc.Server;
+using GrpcLogic;
+using System.Security.Cryptography.X509Certificates;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<ScatterBot>();
+builder.Services.AddCodeFirstGrpc();
 
 var app = builder.Build();
 
@@ -15,16 +19,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    //app.MapPost("/", (MoveRequest request) =>
-    //{
-    //    MoveResponse m = new MoveResponse(new List<Move>());
-    //    return m;
-
-    //});
+   
     app.MapPost("/", async (MoveRequest request,ScatterBot scatterBot) =>
     {
-       
-
         var moves = await scatterBot.PlanedMovesAsync(request);
 
         return new MoveResponse(moves);
@@ -35,7 +32,8 @@ if (app.Environment.IsDevelopment())
         bot.Strategy = value;
     });
     app.MapGet("/", () => "hello World");
-    
+
+    app.MapGrpcService<ScatterBotService>();
 
     app.UseHttpsRedirection();
 
@@ -44,4 +42,5 @@ if (app.Environment.IsDevelopment())
     app.MapControllers();
 
     app.Run();
+
 }

@@ -1,6 +1,8 @@
 ﻿using BadgerClan.Logic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Grpc.Net.Client;
+using GrpcLogic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -90,4 +92,4 @@ namespace Controller.Maui.ViewModels;
 
 }
 
-
+   

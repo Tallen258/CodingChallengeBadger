@@ -68,5 +68,11 @@ Command="{Binding MoveUpLeftCommand}" />
 Text="MoveDownRight"
 Command="{Binding MoveDownRightCommand}" />
         </Grid>
+        <Button
+            Text="Grpc"
+            HorizontalOptions="Fill"/>
+        <Label Text="{Binding Response.Message}"/>
+        
+        
     </VerticalStackLayout>
 </ContentPage>
