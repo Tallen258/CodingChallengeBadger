@@ -36,14 +36,14 @@ Text="Do Nothing"
 Command="{Binding DoNothingCommand}" />
         <Grid ColumnDefinitions="*,*"
               RowDefinitions="*,*">
-        <Button 
+            <Button 
             Padding="2"
             Margin="2"
             Grid.Column="0"
             Grid.Row="1"
 Text="MoveDownLeft"
             Command="{Binding MoveDownLeftCommand}" />
-        
+
             <Button 
             Padding="2"
             Margin="2"
@@ -51,7 +51,7 @@ Text="MoveDownLeft"
                 Grid.Row="0"
 Text="MoveUpRight"
 Command="{Binding MoveUpRightCommand}" />
-        
+
             <Button 
             Padding="2"
             Margin="2"
@@ -59,7 +59,7 @@ Command="{Binding MoveUpRightCommand}" />
                 Grid.Row="0"
 Text="MoveUpLeft"
 Command="{Binding MoveUpLeftCommand}" />
-        
+
             <Button 
             Padding="2"
             Margin="2"
@@ -68,11 +68,6 @@ Command="{Binding MoveUpLeftCommand}" />
 Text="MoveDownRight"
 Command="{Binding MoveDownRightCommand}" />
         </Grid>
-        <Button
-            Text="Grpc"
-            HorizontalOptions="Fill"/>
-        <Label Text="{Binding Response.Message}"/>
-        
-        
+
     </VerticalStackLayout>
 </ContentPage>

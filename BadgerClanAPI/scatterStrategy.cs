@@ -139,6 +139,18 @@ public class ScatterBot
         }
 
         return Task.FromResult(moves);
+
+        foreach (var unit in request.Units.Where(u => u.Team == request.YourTeamId))
+        {
+            var newLocation = unit.Location.MoveNorthWest(1);
+
+            if (newLocation.Q >= 0)
+            {
+                moves.Add(new Move(MoveType.Walk, unit.Id, newLocation));
+            }
+        }
+
+        return Task.FromResult(moves);
     }
     private Task<List<Move>> MoveUpLeft(MoveRequest request)
     {
